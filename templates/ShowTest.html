@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Решение тестов</title>
+    <link href="{{ url_for('static', filename='/css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #00cc66;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/static/img/logo.png" alt="Bootstrap" width="250" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-5 mb-lg-0">
+                    <li class="nav-item">
+
+                    </li>
+                </ul>
+                <a href="/openAddTest"><button type="button" class="btn mx-2"
+                        style="background-color: #d15191; color: white;">Создать свой тест</button></a>
+                {% if isA %}
+                <a href="/lk"><button type="button" class="btn mx-2"
+                        style="background-color: #00cc66; color: white;">Личный кабинет {{userName}}
+                    </button></a>
+                {% else %}
+                <a href="/lk"><button type="button" class="btn mx-2"
+                        style="background-color: white; color: #d15191;">Войти в личный кабинет
+                    </button></a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="card rounded border border-2" id="question_and_answer" style="padding: 20px;">
+            {% for el in tests.question%}
+            <h5 id="name_question">{{el.question[1]}}</h5>
+            {% for ela in el.answers %}
+            <div class="form-check">
+                <fieldset id="flexRadioDefault{{el.question[0]}}">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault{{el.question[0]}}"
+                        onchange="AddAnswer({{ ela[0] }})">
+                    <label class="form-check-label" for="flexRadioDefault{{ela[0]}}">
+                        {{ ela[1] }}
+                    </label>
+                </fieldset>
+            </div>
+            {% endfor %}
+            <hr>
+            {% endfor %}
+            <button type="button" class="btn btn-info mt-2" onclick="CheckResult()"
+                style="background-color: #00cc66; color: white;">Получить результат</button>
+        </div>
+    </main>
+    <hr>
+    <footer class="container p-4 rounded h-50">
+        <div style="display: inline; text-align: center;">
+            <a href="/static/docx/Политика конфиденциальности.pdf" style="color: #00cc66">Политика
+                конфиденциальности</a>
+            <a href="/static/docx/Условия использования веб-ресурса.pdf"
+                style="margin-left: 20px !important; color: #00cc66;">Условия использования веб-ресурса</a>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='/js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/popper.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/bootstrap.min.js')}}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/jquery.js')}}"></script>
+</body>
+<script>
+    var test = {{ tests| tojson }};
+    var answers = [];
+    const AddAnswer = (el) => {
+        this.answers.push(el)
+        return answers;
+    }
+    const CheckResult = () => {
+        const resultNum = findMostFrequentNumber(this.answers);
+        for (let i = 0; test.results.length > i; i++) {
+            if (test.results[i][0] == resultNum) {
+                $('#question_and_answer').append(`<div class="card" style="width: 18rem; margin: 10px auto;">
+                <img src="/static`+ test.results[i][2] + `" id="result_pic" class="w-100 card-img-top text-center">
+                <div class="card-body">
+                    <p id="result_text" class="text-center"> `+ test.results[i][1] + `</p>
+                </div>
+            </div>`)
+            }
+        }
+    }
+    function findMostFrequentNumber(arr) {
+        const countMap = {};
+
+        // Подсчет количества вхождений каждого числа
+        arr.forEach(num => {
+            countMap[num] = (countMap[num] || 0) + 1;
+        });
+
+        let maxCount = 0;
+        let mostFrequentNumber = null;
+
+        // Поиск числа с максимальным количеством вхождений
+        for (let num in countMap) {
+            if (countMap[num] > maxCount) {
+                maxCount = countMap[num];
+                mostFrequentNumber = Number(num);
+            }
+        }
+
+        return mostFrequentNumber;
+    }
+</script>
+
+</html>

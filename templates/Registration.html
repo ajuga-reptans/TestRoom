@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="{{ url_for('static', filename='/css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
+</head>
+
+<body>    
+    <nav class="navbar navbar-expand-lg" style="background-color: #00cc66;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/static/img/logo.png" alt="Bootstrap" width="250" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-5 mb-lg-0">
+                    <li class="nav-item">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <form class="w-25 position-absolute top-50 start-50 translate-middle" action="/registration" method="post">
+        <h1 class="h3 mb-3 fw-normal text-center">Пожалуйста, зарегистрируйтесь</h1>
+
+        <div class="form-floating my-2">
+            <input type="text" class="form-control" name="login" id="floatingInput" placeholder="name">
+            <label for="floatingInput">Логин</label>
+        </div>
+        <div class="form-floating my-2">
+            <input type="email" class="form-control" placeholder="name@example.com">
+            <label for="floatingInput">Почта</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Пароль</label>
+        </div>
+        <div class="form-floating my-2">
+            <input type="password" class="form-control" name="password2" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Повторите пароль</label>
+        </div>
+        <a href="/login" style="margin-left: 10px !important; color: #d15191; " class="">У меня уже есть аккаунт</a>
+        <button class="w-100 btn btn-lg my-2" style="background-color: #00cc66; color: white;" type="submit">Войти</button>
+    </form>
+    <script src="{{ url_for('static', filename='/js/bootstrap.bundle.min.js') }}"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/popper.min.js') }}"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/bootstrap.min.js')}}"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

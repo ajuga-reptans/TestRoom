@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание тестов</title>
+    <link href="{{ url_for('static', filename='/css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #00cc66;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/static/img/logo.png" alt="Bootstrap" width="250" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-5 mb-lg-0">
+                    <li class="nav-item">
+
+                    </li>
+                </ul>
+                <a href="/openAddTest"><button type="button" class="btn mx-2"
+                        style="background-color: #d15191; color: white;">Создать свой тест</button></a>
+                <a href="/lk"><button type="button" class="btn mx-2"
+                        style="background-color: #00cc66; color: white;">Личный кабинет {{userName}}
+                    </button></a>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <h5 class="mt-2 mb-2">Добавление теста</h5>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Название теста</label>
+            <input type="text" class="form-control" id="testName">
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile02">Описание теста</label>
+            <input type="text" class="form-control" id="testDesc">
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile03">Выберите фото</label>
+            <input type="file" class="form-control" id="testPic">
+        </div>
+        <div class="input-group mb-3 mt-3">
+            <select id="catId" class="form-select">
+                {% for cat in categories %}
+                <option value="{{cat[0]}}">{{cat[1]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="button" class="btn mb-2" style="background-color: #00cc66; color: white;"
+            onclick="AddResult()">Добавить результат</button>
+        <div id="resultTest">
+        </div>
+        <button type="button" class="btn mb-2" style="background-color: #00cc66; color: white;"
+            onclick="AddQuestion()">Добавить вопрос</button>
+        <div id="question">
+
+        </div>
+        <button type="button" class="btn mb-2" style="background-color: #d15191;; color: white;"
+            onclick="AddTest()">Сохранить</button>
+    </main>
+    <hr>
+    <script src="{{ url_for('static', filename='/js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/popper.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/bootstrap.min.js')}}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='/js/jquery.js')}}"></script>
+    <script>
+        var i = 0;
+        var num_result = 1;
+        var num_question = 0;
+        var name_question = 1;
+        const AddResult = () => {
+            $('#resultTest').append(`<div class="input-group mb-3 resBlock" id="blockresult` + this.i + `">
+                <label class="input-group-text" for="inputGroupFile04">Результат: ` + this.num_result + `</label>
+                <label class="input-group-text" for="inputGroupFile04">Название результата</label>
+                <input type="text" class="form-control resTextGGClass" id="resTextGG`+ this.i + `">
+                <button type="button" class="btn btn-danger" onclick="DelElem(blockresult`+ this.i + `)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash3" viewBox="0 0 16 16">
+                        <path
+                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                </button>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile03">Выберите фото</label>
+                    <input type="file" class="form-control fileAAAA" id="testResultPic`+ this.i + `">
+                </div>
+            </div>`);
+            this.i += 1;
+            this.num_result += 1;
+        };
+
+        const AddQuestion = () => {
+            $('#question').append(`<div class="qB" id="blockquestion` + this.num_question + `">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile04">Название вопроса ` + this.name_question + `</label>
+                    <input type="text" class="form-control">
+                    <button type="button" class="btn btn-danger" onclick="DelElem(blockquestion`+ this.num_question + `)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-group mb-3" id="blockquestion` + this.num_question + `">
+                    <label class="input-group-text" for="inputGroupFile04">Ответ 1</label>
+                    <input type="text" class="form-control">
+                    <label class="input-group-text" for="inputGroupFile04">Введите номер результата</label>
+                    <input type="number" class="form-control">
+                </div>
+                <div class="input-group mb-3" id="blockquestion` + this.num_question + `">
+                    <label class="input-group-text" for="inputGroupFile04">Ответ 2</label>
+                    <input type="text" class="form-control">
+                    <label class="input-group-text" for="inputGroupFile04">Введите номер результата</label>
+                    <input type="number" class="form-control">
+                </div>
+                <div class="input-group mb-3" id="blockquestion` + this.num_question + `">
+                    <label class="input-group-text" for="inputGroupFile04">Ответ 3</label>
+                    <input type="text" class="form-control">
+                    <label class="input-group-text" for="inputGroupFile04">Введите номер результата</label>
+                    <input type="number" class="form-control">
+                </div>
+                <div class="input-group mb-3" id="blockquestion` + this.num_question + `">
+                    <label class="input-group-text" for="inputGroupFile04">Ответ 4</label>
+                    <input type="text" class="form-control">
+                    <label class="input-group-text" for="inputGroupFile04">Введите номер результата</label>
+                    <input type="number" class="form-control">
+                </div>
+            </div>`);
+            this.num_question += 1;
+            this.name_question += 1;
+        };
+
+        const DelElem = (elem) => {
+            $(elem).remove();
+        };
+        // var files;
+        // $('input[type=file]').change(function () {
+        //     files = this.files;
+        // });
+        // var fileCllection = []
+        // const FileCollection = (el) => {
+        //     fileCllection.push(el.value);
+        // }
+        function AddTest() {
+            var dataToSend = new FormData()
+            dataToSend.append('testName', $('#testName').val())
+            dataToSend.append('testDesc', $('#testDesc').val())
+            dataToSend.append('catId', $('#catId').val())
+            var ff = document.getElementById('testPic');
+            dataToSend.append('testPic', ff.files[0])
+            var testResults = []
+            var ress = $('.resTextGGClass')
+            let i = 0
+            let fileRess = $('.fileAAAA')
+            for (let ii = 0; ii < fileRess.length; ii++) {
+                var elInput1 = document.getElementById('testResultPic' + ii)
+                dataToSend.append('testPicRes' + ii, elInput1.files[0])
+            }
+            // for (let ii = 1; ii < fileS.length; ii++) {
+            //     dataToSend.append('testPicRes' + ii, fileS[ii]['files'][0])
+            // }
+            for (let ii = 0; ii < ress.length; ii++) {
+                testResults.push({ 'id': ii, 'resName': $('#resTextGG' + ii).val() });
+            }
+            dataToSend.append('testResults', JSON.stringify(testResults))
+            var questions = []
+            ress = $('.qB')
+            for (let i = 0; i < ress.length; i++) {
+                var elInput = $('#blockquestion' + i + ' input')
+                questions.push({
+                    'questionName': elInput.eq(0).val(), 'answers': [{ "answer": elInput.eq(1).val(), 'resNum': elInput.eq(2).val() },
+                    { "answer": elInput.eq(3).val(), 'resNum': elInput.eq(4).val() },
+                    { "answer": elInput.eq(5).val(), 'resNum': elInput.eq(6).val() },
+                    { "answer": elInput.eq(7).val(), 'resNum': elInput.eq(8).val() }
+                    ]
+                })
+            }
+            dataToSend.append('questions', JSON.stringify(questions))
+            console.log(dataToSend);
+            $.ajax({
+                url: '/addTest',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: dataToSend,
+                success: function (data) {
+                    location.href = '/';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
